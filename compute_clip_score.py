@@ -8,7 +8,7 @@ sys.path.insert(0, parent_dir_path)
 
 from models.clip_utils import CLIP
 
-clip = CLIP(r'F:\HuggingFace\clip-vit-base-patch32')
+clip = CLIP(r'/content/HuggingFace/clip-vit-base-patch32')
 clip.eval()
 clip.to('cuda')
 image = Image.open('/singal_image/image_example\COCO_val2014_000000545385.jpg')

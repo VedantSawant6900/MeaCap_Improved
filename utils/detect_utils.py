@@ -40,7 +40,7 @@ def retrieve_concepts(parser_model=None, parser_tokenizer=None, wte_model=None, 
         logger.logger.info(f"Memory concepts: {concepts}")
         logger.logger.info(f"********************************************")
 
-    return concepts[:4]
+    return concepts[:10]
 
 def retrieve_concepts_from_image(parser_model=None, parser_tokenizer=None, wte_model=None, select_memory_captions=None,image_path=None,
                    device=None, logger=None, args=None):

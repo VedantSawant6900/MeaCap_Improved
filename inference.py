@@ -124,7 +124,7 @@ if __name__ == "__main__":
             memory_captions = json.load(f)
 
     # huge memeory bank cannot load on GPU
-    if memory_id == 'cc3m' or memory_id == 'ss1m':
+    if memory_id == 'cc3m' and memory_id == 'ss1m':
         retrieve_on_CPU = True
         print('CC3M/SS1M Memory is too big to compute on RTX 3090, Moving to CPU...')
         vl_model_retrieve = copy.deepcopy(vl_model).to(cpu_device)
@@ -133,10 +133,11 @@ if __name__ == "__main__":
         vl_model_retrieve = vl_model
         retrieve_on_CPU = False
 
-    result_dict = {}
+    result_list = []
     for batch_idx, (batch_image_embeds, batch_name_list, batch_img_list) in enumerate(train_loader):
         start = time.time()
         logger.logger.info(f'{batch_idx + 1}/{len(train_loader)}, image name: {batch_name_list[0]}')
+        logger.logger.info(f'{(batch_idx + 1) * 100/len(train_loader)}')
 
         if args.use_memory:
             if retrieve_on_CPU != True:
@@ -197,14 +198,17 @@ if __name__ == "__main__":
         # if isinstance(gen_text, list):
         #     gen_text = gen_text[0]
 
-        result_dict[os.path.splitext(batch_name_list[0])[0]] = best_text
+        result_dict = {}
+        result_dict['image_id'] = batch_name_list[0].split('.')[0]
+        result_dict['caption']= best_text
+        result_list.append(result_dict)
         used_time = time.time() - start
         logger.logger.info(f'using {used_time}s')
     if not os.path.exists(args.output_path):
         os.makedirs(args.output_path)
     save_file = os.path.join(args.output_path, save_file)
     with open(save_file, 'w', encoding="utf-8") as _json:
-        json.dump(result_dict, _json,indent=2)
+        json.dump(result_list, _json,indent=2)
 
 
 

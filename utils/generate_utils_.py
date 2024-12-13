@@ -647,6 +647,13 @@ def conzic_sample_function(lm_logits=None,
 
         gen_text_wte_embedding = wte_model.encode(batch_text_list, convert_to_tensor=True)
         memroy_text_wte_embedding = torch.mean(select_memory_wte_embeddings, dim=0).unsqueeze(0)
+        if gen_text_wte_embedding.shape[1] != memroy_text_wte_embedding.shape[1]:
+            import torch.nn as nn
+            projection = nn.Linear(max(gen_text_wte_embedding.shape[1], memroy_text_wte_embedding.shape[1]), min(gen_text_wte_embedding.shape[1], memroy_text_wte_embedding.shape[1])).to('cuda')
+            if gen_text_wte_embedding.shape[1] > memroy_text_wte_embedding.shape[1]:
+                gen_text_wte_embedding = projection(gen_text_wte_embedding)
+            else:
+                memroy_text_wte_embedding = projection(memroy_text_wte_embedding)
         memory_ref = torch.cosine_similarity(memroy_text_wte_embedding, gen_text_wte_embedding, dim=1)
         memory_score = torch.softmax(memory_ref, dim=0).unsqueeze(0)
         clip_score = args.beta * clip_ref + args.gamma * memory_ref
