@@ -1,7 +1,7 @@
 # [CVPR 2024] Improved MeaCap: Memory-Augmented Zero-shot Image Captioning
 
 **Authors**:
-[Vedant Sawant](linkedin.com/in/vedantsawant6900)
+[Vedant Sawant](https://github.com/VedantSawant6900)
 <br/>
 Improved implementation of  MeaCap.
 
