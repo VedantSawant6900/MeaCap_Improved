@@ -42,3 +42,5 @@ Improved implementation of  MeaCap.
 ## Step 13: Run python inference.py --memory_id coco --img_path ./image_example -- lm_model_path ./checkpoints/CBART_COCO
 ## Step 14: Check the output file in ./outputs and check the captions.
 ## Step 15: Finally Run the cocoeval.py to get the metrics and compare the Result.
+#Acknowledgements
+Thank You [MeaCap](https://github.com/joeyz0z/MeaCap?tab=readme-ov-file#inference)
